@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     @IBAction func reset() {
         brain.reset()
         history.text = "0"
-        displayValue = nil
+        updateDescription()
     }
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         }
         if let operation = sender.currentTitle {
             displayValue = brain.performOperation(operation)
-            history.text = brain.description
+            updateDescription()
         }
     }
     
@@ -63,5 +63,16 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    func updateDescription() {
+        if let newValue = brain.description
+        {
+            history.text = "\(brain.description!)="
+        }
+        else {
+            history.text = " "
+        }
+    }
+
 }
 
