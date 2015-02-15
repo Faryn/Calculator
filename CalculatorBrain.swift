@@ -13,6 +13,7 @@ class CalculatorBrain
     private enum Op: Printable {
         case Operand(Double)
         case Constant(String, Double)
+        case Variable(String)
         case UnaryOperation(String, Double -> Double)
         case BinaryOperation(String, (Double, Double) -> Double)
         
@@ -21,6 +22,8 @@ class CalculatorBrain
                 switch self {
                 case .Operand(let operand):
                     return "\(operand)"
+                case .Variable(let variable):
+                    return "\(variable)"
                 case .Constant(let symbol, _):
                     return symbol
                 case .UnaryOperation(let symbol, _):
@@ -36,6 +39,8 @@ class CalculatorBrain
     private var opStack = [Op]()
     
     private var knownOps = [String:Op]()
+    
+    var variableValues = [String: Double]()
     
     
     init() {
@@ -61,6 +66,8 @@ class CalculatorBrain
             switch op {
             case .Operand(let operand):
                 return (operand, remainingOps)
+            case .Variable(let variable):
+                return (variableValues[variable]?, remainingOps)
             case .Constant(_, let value):
                 return (value, remainingOps)
             case .UnaryOperation(_, let operation):
@@ -82,13 +89,58 @@ class CalculatorBrain
         return (nil, ops)
     }
     
+    var description: String? {
+        get {
+            let (result, remainder) = description(opStack)
+            return result
+        }
+    }
+    
     func evaluate() -> Double? {
         let (result, remainder) = evaluate(opStack)
         return result
     }
     
+    private func description(ops: [Op]) -> (result: String?, remainingOps: [Op])
+    {
+        if !ops.isEmpty {
+            var remainingOps = ops
+            let op = remainingOps.removeLast()
+            switch op {
+            case .Operand(let operand):
+                return ("\(operand)", remainingOps)
+            case .Variable(let variable):
+                return (variable, remainingOps)
+            case .Constant(let constant, _):
+                return (constant, remainingOps)
+            case .UnaryOperation(let operation, _):
+                let operandDescription = description(remainingOps)
+                if let operand = operandDescription.result {
+                    return (("\(operation)(\(operand))"), operandDescription.remainingOps)
+                }
+            case .BinaryOperation(let operation, _):
+                let op1Description = description(remainingOps)
+                if let operand1 = op1Description.result {
+                    let op2Description = description (op1Description.remainingOps)
+                    if let operand2 = op2Description.result {
+                        return (("\(operand2)\(operation)\(operand1)"), op2Description.remainingOps)
+                    }
+                    else {
+                        return (("?\(operation)\(operand1)"), op2Description.remainingOps)
+                    }
+                }
+            }
+        }
+        return (nil, ops)
+    }
+
     func pushOperand(operand: Double) -> Double? {
         opStack.append(Op.Operand(operand))
+        return evaluate()
+    }
+    
+    func pushOperand(symbol: String) -> Double? {
+        opStack.append(Op.Variable(symbol))
         return evaluate()
     }
     

@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     @IBAction func reset() {
         brain.reset()
         history.text = "0"
-        displayValue = 0
+        displayValue = nil
     }
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
@@ -38,30 +38,29 @@ class ViewController: UIViewController {
             enter()
         }
         if let operation = sender.currentTitle {
-            if let result = brain.performOperation(operation) {
-                displayValue = result
-            }   else {
-                displayValue = 0
-            }
+            displayValue = brain.performOperation(operation)
+            history.text = brain.description
         }
     }
     
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
-        if let result = brain.pushOperand(displayValue) {
-            displayValue = result
-        } else {
-            displayValue = 0
-        }
+        displayValue =  brain.pushOperand(displayValue!)
+        history.text = brain.description
     }
     
-    var displayValue: Double {
+    var displayValue: Double? {
         get {
-            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            return NSNumberFormatter().numberFromString(display.text!)?.doubleValue
         }
         set {
-            display.text = "\(newValue)"
-            userIsInTheMiddleOfTypingANumber = false
+            if newValue != nil {
+                display.text = "\(newValue!)"
+                userIsInTheMiddleOfTypingANumber = false
+            } else
+            {
+               display.text = " "
+            }
         }
     }
 }
