@@ -91,7 +91,18 @@ class CalculatorBrain
     
     var description: String? {
         get {
-            let (result, remainder) = description(opStack)
+            var result = String?()
+            var remainder = [Op]()
+            (result, remainder) = description(opStack)
+            while !remainder.isEmpty
+            {
+                let expression = description(remainder)
+                if let expDescription = expression.result
+                {
+                    result = "\(expDescription), \(result!)"
+                    remainder = expression.remainingOps
+                }
+            }
             return result
         }
     }

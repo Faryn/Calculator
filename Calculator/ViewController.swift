@@ -19,8 +19,8 @@ class ViewController: UIViewController {
     
     @IBAction func reset() {
         brain.reset()
-        history.text = "0"
         updateDescription()
+        displayValue = nil
     }
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
