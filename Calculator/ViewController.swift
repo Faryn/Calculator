@@ -22,6 +22,30 @@ class ViewController: UIViewController {
         updateDescription()
         displayValue = nil
     }
+    @IBAction func setM() {
+        if let value = displayValue? {
+            userIsInTheMiddleOfTypingANumber = false
+            displayValue = brain.setVar("M", v: value)
+        }
+    }
+    
+    @IBAction func pushVar(sender: UIButton) {
+        enter()
+        displayValue = brain.pushOperand(sender.currentTitle!)
+    }
+    
+    @IBAction func undo() {
+        if userIsInTheMiddleOfTypingANumber {
+            if !display.text!.isEmpty {
+                display.text = dropLast(display.text!)
+            }
+        }
+        else {
+            displayValue = brain.removeLastFromStack()
+            updateDescription()
+        }
+    }
+    
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         if digit == "." && display.text!.rangeOfString(digit) != nil { return }
@@ -44,9 +68,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func enter() {
-        userIsInTheMiddleOfTypingANumber = false
-        displayValue =  brain.pushOperand(displayValue!)
-        history.text = brain.description
+        if let value = displayValue {
+            userIsInTheMiddleOfTypingANumber = false
+            displayValue =  brain.pushOperand(displayValue!)
+            history.text = brain.description
+        }
     }
     
     var displayValue: Double? {

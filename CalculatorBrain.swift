@@ -40,7 +40,13 @@ class CalculatorBrain
     
     private var knownOps = [String:Op]()
     
-    var variableValues = [String: Double]()
+    private var variableValues = [String: Double]()
+    
+    func setVar(s: String, v: Double) -> Double? {
+        variableValues[s] = v
+        return evaluate()
+    }
+
     
     
     init() {
@@ -161,8 +167,21 @@ class CalculatorBrain
         }
         return evaluate()
     }
+    
+    func removeLastFromStack () -> Double? {
+        if !opStack.isEmpty {
+            opStack.removeLast()
+            return evaluate()
+        }
+        return nil
+    }
+    
+    func resetVars() {
+        variableValues.removeAll(keepCapacity: false)
+    }
 
     func reset() {
         opStack.removeAll(keepCapacity: false)
+        resetVars()
     }
 }
