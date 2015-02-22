@@ -5,10 +5,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Calculator View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="CalculatorViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -17,18 +17,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="39" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XLv-e7-0xZ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="39" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="XLv-e7-0xZ">
                                 <rect key="frame" x="16" y="28" width="568" height="39"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="39" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aqR-St-Txh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="39" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="aqR-St-Txh">
                                 <rect key="frame" x="16" y="75" width="568" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="Fso-Dx-qxa"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -339,6 +339,7 @@
                             <constraint firstItem="hYR-xE-fSi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="8hl-3W-xbT"/>
                             <constraint firstItem="Oyu-gD-6EZ" firstAttribute="width" secondItem="efJ-iR-5mf" secondAttribute="width" id="99P-pP-goS"/>
                             <constraint firstItem="Oyu-gD-6EZ" firstAttribute="height" secondItem="sZG-gW-rgD" secondAttribute="height" id="AS6-Fa-8C4"/>
+                            <constraint firstItem="XLv-e7-0xZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Agf-0X-lQ9"/>
                             <constraint firstItem="Oyu-gD-6EZ" firstAttribute="width" secondItem="xuv-B9-Zgx" secondAttribute="width" id="Al5-n5-fUD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PW6-0t-kxC" secondAttribute="trailing" constant="8" id="Bae-ys-9Y9"/>
                             <constraint firstItem="efJ-iR-5mf" firstAttribute="top" secondItem="IpK-fg-0R9" secondAttribute="bottom" constant="8" id="BoW-uF-GY3"/>
@@ -375,6 +376,7 @@
                             <constraint firstItem="XLv-e7-0xZ" firstAttribute="leading" secondItem="aqR-St-Txh" secondAttribute="leading" id="Sis-Zi-ezy"/>
                             <constraint firstItem="f8l-l6-amB" firstAttribute="leading" secondItem="Oyu-gD-6EZ" secondAttribute="trailing" constant="8" id="Sna-U8-1Cu"/>
                             <constraint firstItem="Unh-bR-pye" firstAttribute="leading" secondItem="hYR-xE-fSi" secondAttribute="trailing" constant="8" id="Sp9-48-qSy"/>
+                            <constraint firstItem="aqR-St-Txh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="TTC-7p-8Mb"/>
                             <constraint firstItem="IXK-a1-har" firstAttribute="leading" secondItem="MTM-FA-bVa" secondAttribute="trailing" constant="8" id="Twq-Fj-K99"/>
                             <constraint firstItem="Oyu-gD-6EZ" firstAttribute="height" secondItem="xMJ-k6-GMo" secondAttribute="height" id="TxO-yv-g78"/>
                             <constraint firstItem="Oyu-gD-6EZ" firstAttribute="height" secondItem="9hO-N2-IG3" secondAttribute="height" id="VMm-hC-j9u"/>

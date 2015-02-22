@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
 
     var userIsInTheMiddleOfTypingANumber : Bool = false
     
@@ -19,7 +19,6 @@ class ViewController: UIViewController {
     
     @IBAction func reset() {
         brain.reset()
-        updateDescription()
         displayValue = nil
     }
     @IBAction func setM() {
@@ -42,7 +41,6 @@ class ViewController: UIViewController {
         }
         else {
             displayValue = brain.removeLastFromStack()
-            updateDescription()
         }
     }
     
@@ -63,7 +61,6 @@ class ViewController: UIViewController {
         }
         if let operation = sender.currentTitle {
             displayValue = brain.performOperation(operation)
-            updateDescription()
         }
     }
     
@@ -71,7 +68,6 @@ class ViewController: UIViewController {
         if let value = displayValue {
             userIsInTheMiddleOfTypingANumber = false
             displayValue =  brain.pushOperand(displayValue!)
-            history.text = brain.description
         }
     }
     
@@ -87,6 +83,7 @@ class ViewController: UIViewController {
             {
                display.text = " "
             }
+            updateDescription()
         }
     }
     
