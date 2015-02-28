@@ -12,28 +12,39 @@ class CalculatorViewController: UIViewController {
 
     var userIsInTheMiddleOfTypingANumber : Bool = false
     
-    var brain = CalculatorBrain()
+    private var brain = CalculatorBrain()
+    private var brain2 = CalculatorBrain()
     
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var history: UILabel!
+    
+    func getResultFromValue(value: Double) -> Double? {
+        if let opStack = brain.program as? Array<String> {
+            if opStack != brain2.program as Array<String> {
+                brain2.program = opStack
+            }
+        }
+        brain2.setVar("M", v: value)
+        return brain2.evaluate()
+    }
     
     @IBAction func reset() {
         brain.reset()
         displayValue = nil
     }
-    @IBAction func setM() {
+    @IBAction private func setM() {
         if let value = displayValue? {
             userIsInTheMiddleOfTypingANumber = false
             displayValue = brain.setVar("M", v: value)
         }
     }
     
-    @IBAction func pushVar(sender: UIButton) {
+    @IBAction private func pushVar(sender: UIButton) {
         enter()
         displayValue = brain.pushOperand(sender.currentTitle!)
     }
     
-    @IBAction func undo() {
+    @IBAction private func undo() {
         if userIsInTheMiddleOfTypingANumber {
             if !display.text!.isEmpty {
                 display.text = dropLast(display.text!)
@@ -55,7 +66,7 @@ class CalculatorViewController: UIViewController {
         }
     }
     
-    @IBAction func operate(sender: UIButton) {
+    @IBAction private func operate(sender: UIButton) {
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
@@ -64,10 +75,11 @@ class CalculatorViewController: UIViewController {
         }
     }
     
-    @IBAction func enter() {
+    @IBAction private func enter() {
         if let value = displayValue {
             userIsInTheMiddleOfTypingANumber = false
             displayValue =  brain.pushOperand(displayValue!)
+            println(brain.program)
         }
     }
     
@@ -87,13 +99,28 @@ class CalculatorViewController: UIViewController {
         }
     }
     
-    func updateDescription() {
+    private func updateDescription() {
         if let newValue = brain.description
         {
             history.text = "\(brain.description!)="
         }
         else {
             history.text = " "
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var destination = segue.destinationViewController as? UIViewController
+        if let navCon = destination as? UINavigationController{
+            destination = navCon.visibleViewController
+        }
+        if let gvc = destination as? GraphViewController {
+            if let identifier = segue.identifier {
+                if identifier == "graph"
+                {
+                    gvc.cvc = self
+                }
+            }
         }
     }
 

@@ -75,6 +75,8 @@ class CalculatorBrain
                         newOpStack.append(op)
                     } else if let operand = NSNumberFormatter().numberFromString(opSymbol)?.doubleValue {
                         newOpStack.append(.Operand(operand))
+                    } else {
+                        newOpStack.append(.Variable(opSymbol))
                     }
                 }
                 opStack = newOpStack
@@ -105,7 +107,6 @@ class CalculatorBrain
                 if let operand1 = op1Evaluation.result {
                     let op2Evaluation = evaluate(op1Evaluation.remainingOps)
                     if let operand2 = op2Evaluation.result {
-                        println("\(operand1) \(name) \(operand2)")
                         return (operation(operand1, operand2), op2Evaluation.remainingOps)
                     }
                 }

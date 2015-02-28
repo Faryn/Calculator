@@ -8,12 +8,18 @@
 
 import UIKit
 
+
+protocol GraphViewDataSource : class {
+    func getYForX (x: Double) -> Double?
+}
+
 @IBDesignable
 class GraphView: UIView {
     
     var function = ""
     var axes: AxesDrawer = AxesDrawer()
     
+    weak var dataSource: GraphViewDataSource?
     
     var origin: CGPoint? = nil {
         didSet {
@@ -27,16 +33,6 @@ class GraphView: UIView {
             self.setNeedsDisplay()
         }
 
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        axes.contentScaleFactor = self.contentScaleFactor
-        self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "moveGraph:"))
-        self.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: "changeScale:"))
-        var doubleTap = UITapGestureRecognizer(target:self, action: "reset:")
-        doubleTap.numberOfTapsRequired = 2
-        self.addGestureRecognizer(doubleTap)
     }
 
     func changeScale(gesture: UIPinchGestureRecognizer) {
@@ -71,7 +67,24 @@ class GraphView: UIView {
     }
     
     override func drawRect(rect: CGRect) {
+        let path = UIBezierPath()
+        //UIColor.blueColor().setFill()
+        UIColor.blueColor().setStroke()
+        path.lineWidth = 1
         origin = origin ?? convertPoint(center, fromView: superview)
         axes.drawAxesInRect(bounds.integerRect, origin: origin!, pointsPerUnit: scale)
+        path.moveToPoint(CGPoint(x: bounds.minX, y: origin!.y))
+        for pixel in Int(bounds.minX)...Int(bounds.maxX) {
+            var actX = Double(pixel-Int(origin!.x))
+            actX = actX /  Double(self.scale)
+            if let absY = dataSource!.getYForX(actX) {
+                var actY = origin!.y - (CGFloat(absY) * scale)
+                path.addLineToPoint(CGPoint(x: CGFloat(pixel), y: actY))
+            }
+            else {
+                path.moveToPoint(CGPoint(x: CGFloat(pixel), y: origin!.y))
+            }
+        }
+        path.stroke()
     }
 }
