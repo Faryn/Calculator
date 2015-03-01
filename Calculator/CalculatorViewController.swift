@@ -13,19 +13,13 @@ class CalculatorViewController: UIViewController {
     var userIsInTheMiddleOfTypingANumber : Bool = false
     
     private var brain = CalculatorBrain()
-    private var brain2 = CalculatorBrain()
     
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var history: UILabel!
     
+    
     func getResultFromValue(value: Double) -> Double? {
-        if let opStack = brain.program as? Array<String> {
-            if opStack != brain2.program as Array<String> {
-                brain2.program = opStack
-            }
-        }
-        brain2.setVar("M", v: value)
-        return brain2.evaluate()
+        return brain.setVar("M", v: value)
     }
     
     @IBAction func reset() {
@@ -79,7 +73,6 @@ class CalculatorViewController: UIViewController {
         if let value = displayValue {
             userIsInTheMiddleOfTypingANumber = false
             displayValue =  brain.pushOperand(displayValue!)
-            println(brain.program)
         }
     }
     

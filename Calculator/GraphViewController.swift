@@ -26,7 +26,7 @@ class GraphViewController: UIViewController, GraphViewDataSource
     
     func getYForX (x: Double) -> Double? {
         if let y = cvc?.getResultFromValue(x) {
-            if y.isNaN { return nil }
+            if y.isNaN | y.isInfinite { return nil }
             return y
         }
         return nil

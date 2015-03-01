@@ -35,7 +35,7 @@ class CalculatorBrain
         }
     }
     
-    
+
     private var opStack = [Op]()
     
     private var knownOps = [String:Op]()
@@ -46,8 +46,6 @@ class CalculatorBrain
         variableValues[s] = v
         return evaluate()
     }
-
-    
     
     init() {
         func learnOp(op:Op) {
@@ -127,7 +125,7 @@ class CalculatorBrain
                 {
                     result = "\(expDescription), \(result!)"
                     remainder = expression.remainingOps
-                }
+                } else { remainder.removeLast() }
             }
             return result
         }
